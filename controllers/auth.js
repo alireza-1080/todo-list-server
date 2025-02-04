@@ -37,12 +37,16 @@ const register = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
     //! set the token in the response header
-    res.cookie('auth-token', token, { httpOnly: true, maxAge: 60 * 60 * 24 });
+    res.cookie('auth-token', token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1000,
+      secure: false,
+    });
 
     //! return a success message
-    res.status(201).json({ message: 'User created successfully' });
+    return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -81,31 +85,36 @@ const login = async (req, res) => {
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
 
     //! set the token in the response header
-    res.cookie('auth-token', token, { httpOnly: true, maxAge: 60 * 60 * 24 });
+    res.cookie('auth-token', token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 1000,
+      secure: false,
+    });
 
     //! return a success message
-    res.status(200).json({ message: 'Login successful' });
+    return res.status(200).json({ message: 'Login successful' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
-const logout = async (req, res) => {
+const logout = async (_req, res) => {
   try {
     //! clear the token in the response header
     res.clearCookie('auth-token');
 
     //! return a success message
-    res.status(200).json({ message: 'Logout successful' });
+    return res.status(200).json({ message: 'Logout successful' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
 const isLoggedIn = async (req, res) => {
+  console.log(req.headers.authorization);
   try {
-    //! get the token from the request header
-    const token = req.cookies?.auth_token;
+    //! get the token from the header authorization
+    const token = req.headers.authorization.split(' ')[1];
 
     //! throw an error if the token is not provided
     if (!token) {
@@ -121,9 +130,9 @@ const isLoggedIn = async (req, res) => {
     }
 
     //! return a success message
-    res.status(200).json({ message: 'User is logged in' });
+    return res.status(200).json({ message: 'User is logged in' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -160,9 +169,9 @@ const getMe = async (req, res) => {
     }
 
     //! return the user
-    res.status(200).json({ user });
+    return res.status(200).json({ user });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 

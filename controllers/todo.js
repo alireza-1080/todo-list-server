@@ -52,9 +52,9 @@ const createTodo = async (req, res) => {
     const todo = await Todo.create(validatedTodo);
 
     //! return the success message
-    // res.status(201).json({ message: 'Todo created' });
+    return res.status(201).json({ message: 'Todo created' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -113,9 +113,9 @@ const updateTodo = async (req, res) => {
     await todo.save();
 
     //! return the success message
-    res.status(200).json({ message: 'Todo updated' });
+    return res.status(200).json({ message: 'Todo updated' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -163,9 +163,9 @@ const updateStatus = async (req, res) => {
     await todo.save();
 
     //! return the success message
-    res.status(200).json({ message: 'Todo status updated' });
+    return res.status(200).json({ message: 'Todo status updated' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
@@ -210,9 +210,9 @@ const deleteTodo = async (req, res) => {
     await todo.delete();
 
     //! return the success message
-    res.status(200).json({ message: 'Todo deleted' });
+    return res.status(200).json({ message: 'Todo deleted' });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
