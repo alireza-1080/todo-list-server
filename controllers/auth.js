@@ -164,14 +164,18 @@ const getMe = async (req, res) => {
     //! find a user by id
     const user = await User.findById(id)
       .select({
-        password: 0,
-        __v: 0,
-        createdAt: 0,
-        updatedAt: 0,
-        username: 0,
-        email: 0,
+      password: 0,
+      __v: 0,
+      createdAt: 0,
+      updatedAt: 0,
+      username: 0,
+      email: 0,
       })
-      .populate('todos');
+      .populate({
+      path: 'todos',
+      select: { __v: 0, createdAt: 0, updatedAt: 0 },
+      options: { sort: { _id: -1 } }
+      });
 
     //! throw an error if the user is not found
     if (!user) {

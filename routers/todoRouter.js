@@ -5,10 +5,10 @@ const todoRouter = express.Router();
 
 todoRouter.post('/create', createTodo);
 
-todoRouter.post('/update/:id', updateTodo);
+todoRouter.post('/edit/:id', updateTodo);
 
-todoRouter.post('update-status/:id', updateStatus);
+todoRouter.post('/update-status/:id', updateStatus);
 
-todoRouter.delete('/:id', deleteTodo);
+todoRouter.delete('/delete/:id', deleteTodo);
 
 export default todoRouter;
