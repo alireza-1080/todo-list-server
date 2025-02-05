@@ -3,7 +3,7 @@ import { createTodo, updateTodo, updateStatus, deleteTodo } from '../controllers
 
 const todoRouter = express.Router();
 
-todoRouter.post('/', createTodo);
+todoRouter.post('/create', createTodo);
 
 todoRouter.post('/update/:id', updateTodo);
 

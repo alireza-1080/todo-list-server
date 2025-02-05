@@ -41,11 +41,15 @@ const register = async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 1000,
       secure: false,
+      path: '/',
     });
+
+    console.log('Cookie set:', token);
 
     //! return a success message
     return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
+    console.error('Error during registration:', error.message);
     return res.status(400).json({ message: error.message });
   }
 };
@@ -89,6 +93,7 @@ const login = async (req, res) => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 1000,
       secure: false,
+      path: '/',
     });
 
     //! return a success message
@@ -111,7 +116,6 @@ const logout = async (_req, res) => {
 };
 
 const isLoggedIn = async (req, res) => {
-  console.log(req.headers.authorization);
   try {
     //! get the token from the header authorization
     const token = req.headers.authorization.split(' ')[1];
@@ -138,18 +142,24 @@ const isLoggedIn = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    //! get user id from the request params
-    const { id } = req.params;
+    //! get token from the header authorization
+    const token = req.headers.authorization.split(' ')[1];
 
-    //! throw an error if the user id is not provided
-    if (!id) {
-      throw new Error('User ID is required');
+    //! throw an error if the token is not provided
+    if (!token) {
+      throw new Error('Token not provided');
     }
 
-    //! throw an error if the user id is invalid
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new Error('Invalid user ID');
+    //! verify the token
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+
+    //! throw an error if the token is invalid
+    if (!verified) {
+      throw new Error('Invalid token');
     }
+
+    //! get the user id from the verified token
+    const { _id: id } = verified;
 
     //! find a user by id
     const user = await User.findById(id)

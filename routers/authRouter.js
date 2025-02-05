@@ -11,6 +11,6 @@ authRouter.post('/logout', logout);
 
 authRouter.post('/is-logged-in', isLoggedIn);
 
-authRouter.post('/get-me/:id', getMe)
+authRouter.post('/get-me', getMe)
 
 export default authRouter;

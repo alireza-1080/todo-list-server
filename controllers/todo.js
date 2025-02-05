@@ -4,24 +4,22 @@ import todoValidator from '../validators/todoValidator.js';
 
 const createTodo = async (req, res) => {
   try {
-    //! get token from the request header
-    const token = req.cookies?.auth_token;
+    //! get todo title from the request body
+    const { title, userId } = req.body;
+    
+    //! create a new todo sample object
+    const todoSample = {
+      title,
+      user: userId,
+    };
 
-    //! throw an error if the token is not provided
-    if (!token) {
-      throw new Error('Token not provided');
+    //! validate the todo object
+    const { error, value: validatedTodo } = todoValidator.validate(todoSample);
+    
+    //! throw an error if the todo object is invalid
+    if (error) {
+      throw new Error(error.message);
     }
-
-    //! verify the token
-    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-
-    //! throw an error if the token is invalid
-    if (!verified) {
-      throw new Error('Invalid token');
-    }
-
-    //! get user id from the verified token
-    const userId = verified.id;
 
     //! check if the user exists
     const user = await User.findById(userId);
@@ -31,29 +29,13 @@ const createTodo = async (req, res) => {
       throw new Error('User not found');
     }
 
-    //! get todo title from the request body
-    const { title } = req.body;
-
-    //! create a new todo sample object
-    const todoSample = {
-      title,
-      user: userId,
-    };
-
-    //! validate the todo object
-    const { error, value: validatedTodo } = todoValidator.validate(todo);
-
-    //! throw an error if the todo object is invalid
-    if (error) {
-      throw new Error(error.message);
-    }
-
     //! create a new todo
     const todo = await Todo.create(validatedTodo);
 
     //! return the success message
     return res.status(201).json({ message: 'Todo created' });
   } catch (error) {
+    console.log('Error during todo creation:', error.message);
     return res.status(400).json({ message: error.message });
   }
 };
