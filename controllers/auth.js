@@ -42,7 +42,7 @@ const register = async (req, res) => {
       maxAge: 60 * 60 * 24 * 1000,
       secure: false,
       path: '/',
-      sameSite: "true",
+      sameSite: "strict",
     });
 
     //! return a success message
@@ -93,7 +93,7 @@ const login = async (req, res) => {
       maxAge: 60 * 60 * 24 * 1000,
       secure: false,
       path: '/',
-      sameSite: "true",
+      sameSite: "strict",
     });
 
     //! return a success message
