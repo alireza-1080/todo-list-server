@@ -56,7 +56,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     //! get user identifier and password from the request body
-    const { identifier, password } = req.body;
+    let { identifier, password } = req.body;
 
     //! throw an error if the user identifier or password is not provided
     if (!identifier || !password) {
