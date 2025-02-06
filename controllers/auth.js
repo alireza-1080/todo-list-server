@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../models/user.js';
 import userValidator from '../validators/userValidator.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs'; // Change this line
 import jwt from 'jsonwebtoken';
 
 const register = async (req, res) => {
