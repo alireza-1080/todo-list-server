@@ -64,7 +64,7 @@ const login = async (req, res) => {
     }
 
     //! convert the user identifier to lowercase
-    const identifierLower = identifier.toLowerCase();
+    identifier = identifier.toLowerCase();
 
     //! find a user by email or username
     const user = await User.findOne({
