@@ -6,7 +6,7 @@ const createTodo = async (req, res) => {
   try {
     //! get todo title from the request body
     const { title, userId } = req.body;
-    
+
     //! create a new todo sample object
     const todoSample = {
       title,
@@ -15,7 +15,7 @@ const createTodo = async (req, res) => {
 
     //! validate the todo object
     const { error, value: validatedTodo } = todoValidator.validate(todoSample);
-    
+
     //! throw an error if the todo object is invalid
     if (error) {
       throw new Error(error.message);
@@ -80,13 +80,13 @@ const updateStatus = async (req, res) => {
     if (!todo) {
       throw new Error('Todo not found');
     }
-    
+
     //! update the todo status
     todo.isCompleted = !todo.isCompleted;
 
     //! save the updated todo
     await todo.save();
-    
+
     //! return the success message
     return res.status(200).json({ message: 'Todo status updated' });
   } catch (error) {
@@ -95,7 +95,6 @@ const updateStatus = async (req, res) => {
 };
 
 const deleteTodo = async (req, res) => {
-  console.log('deleteTodo');
   try {
     //! get todo id from the request params
     const { id } = req.params;

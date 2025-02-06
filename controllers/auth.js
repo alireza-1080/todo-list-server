@@ -44,8 +44,6 @@ const register = async (req, res) => {
       path: '/',
     });
 
-    console.log('Cookie set:', token);
-
     //! return a success message
     return res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
