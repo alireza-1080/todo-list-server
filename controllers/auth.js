@@ -43,6 +43,7 @@ const register = async (req, res) => {
       secure: true,
       path: '/',
       sameSite: "strict",
+      domain: '.vercel.app',
     });
 
     //! return a success message
@@ -94,6 +95,7 @@ const login = async (req, res) => {
       secure: true,
       path: '/',
       sameSite: "strict",
+      domain: '.vercel.app',
     });
 
     //! return a success message
