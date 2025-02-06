@@ -40,7 +40,7 @@ const register = async (req, res) => {
     res.cookie('auth-token', token, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 1000,
-      secure: false,
+      secure: true,
       path: '/',
       sameSite: "strict",
     });
@@ -91,7 +91,7 @@ const login = async (req, res) => {
     res.cookie('auth-token', token, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * 1000,
-      secure: false,
+      secure: true,
       path: '/',
       sameSite: "strict",
     });
